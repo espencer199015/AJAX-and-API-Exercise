@@ -46,7 +46,7 @@ function populateShows(shows) {
            <div class="media-body">
              <h5 class="text-primary">${show.name}</h5>
              <div><small>${show.summary}</small></div>
-             <button class="btn btn-outline-light btn-sm Show-getEpisodes">
+             <button id="episodes_btn" class="btn btn-outline-light btn-sm Show-getEpisodes">
                Episodes
              </button>
            </div>
@@ -80,7 +80,7 @@ $searchForm.on("submit", async function (evt) {
  *      { id, name, season, number }
  */
 
- async function getEpisodesOfShow(id) {
+ async function getEpisodes(id) {
  let response = await axios.get(`http://api.tvmaze.com/shows/${id}/episodes`);
 
   let episodes = response.data.map(episode => ({
@@ -114,7 +114,8 @@ function populateEpisodes(episodes) {
   $("#episodes-area").show();
 }
 
-$("#shows-list").on("click", ".get-episodes", async function handleEpisodeClick(evt) {
+$(document).on("click", "#episodes_btn", async function handleEpisodeClick(evt) {
+    console.log("hi");
   let showId = $(evt.target).closest(".Show").data("show-id");
   let episodes = await getEpisodes(showId);
   populateEpisodes(episodes);
